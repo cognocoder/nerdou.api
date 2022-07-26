@@ -1,0 +1,9 @@
+
+# npm modules
+node_modules
+
+# ts output
+dist
+
+# env files
+.env

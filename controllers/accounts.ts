@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
 
-import Account from '../models/account'
+import Account from '../models/Account'
 
 const allow = 'POST, GET'
 

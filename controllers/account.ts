@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 
-import Account from '../models/account'
+import Account from '../models/Account'
 import { MethodNotAllowed, NotFound } from '../errors/HttpErrors'
 
 const allow = 'GET, PATCH, DELETE'

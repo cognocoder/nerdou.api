@@ -1,16 +1,15 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express, NextFunction, Request, Response } from 'express'
+import { NotFound } from '../errors/HttpErrors'
 
 import account from '../routes/account'
 import accounts from '../routes/accounts'
 
 const routes = (app: Express) => {
-	app.get('/', (req: Request, res: Response) => {
-		res.status(404).end()
-	})
-
 	app.use(express.json(), account, accounts)
 
-	return app
+	app.use(() => {
+		throw new NotFound('Route (resource or service) not found.')
+	})
 }
 
 export default routes

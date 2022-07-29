@@ -1,27 +1,25 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
+import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
 
 import Account from '../models/account'
 
+const allow = 'POST, GET'
+
 const accounts = {
-	post: async (req: Request, res: Response) => {
+	post: async (req: Request, res: Response, next: NextFunction) => {
 		const acc = new Account(req.body)
 
-		const found = await Account.find({ email: acc.email })
-		if (found.length) {
-			return res.status(400).json({
-				error: 'Validation Error',
-				message: 'Account validation failed: Path `email` must be unique.',
-				value: acc.email,
-			})
-		}
-
-		acc.save((error) => {
-			if (error?.name) {
-				return res.status(400).json(error)
-			} else {
-				return res.status(201).json(acc)
+		try {
+			const found = await Account.find({ email: acc.email })
+			if (found.length) {
+				throw new BadRequest(`Account for e-mail ${acc.email} already exists.`)
 			}
-		})
+
+			const saved = await acc.save()
+			return res.status(201).json(acc)
+		} catch (error) {
+			next(error)
+		}
 	},
 
 	get: async (req: Request, res: Response) => {
@@ -30,15 +28,18 @@ const accounts = {
 	},
 
 	put: (req: Request, res: Response) => {
-		res.status(405).end()
+		throw new MethodNotAllowed('PUT (replace) accounts is not allowed.', allow)
 	},
 
 	patch: (req: Request, res: Response) => {
-		res.status(405).end()
+		throw new MethodNotAllowed('PATCH (modify) accounts is not allowed.', allow)
 	},
 
 	delete: (req: Request, res: Response) => {
-		res.status(405).end()
+		throw new MethodNotAllowed(
+			'DELETE (remove) accounts is not allowed.',
+			allow
+		)
 	},
 }
 

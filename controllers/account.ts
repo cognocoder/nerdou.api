@@ -1,31 +1,35 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 
 import Account from '../models/account'
+import { MethodNotAllowed, NotFound } from '../errors/HttpErrors'
+
+const allow = 'GET, PATCH, DELETE'
 
 const account = {
 	post: (req: Request, res: Response) => {
-		return res.status(405).end()
+		throw new MethodNotAllowed('POST (create) account is not allowed.', allow)
 	},
 
-	get: async (req: Request, res: Response) => {
+	get: async (req: Request, res: Response, next: NextFunction) => {
 		const id = req.params.id
 
 		try {
-			const found = await Account.findById(id)
+			const found = await Account.findById(id).exec()
 			if (found) {
 				return res.status(200).json(found)
 			}
-			return res.status(404).end()
+
+			throw new NotFound(`Account ${id} not found.`)
 		} catch (error) {
-			return res.status(500).json(error)
+			next(error)
 		}
 	},
 
 	put: async (req: Request, res: Response) => {
-		return res.status(405).end()
+		throw new MethodNotAllowed('PUT (replace) account is not allowed.', allow)
 	},
 
-	patch: async (req: Request, res: Response) => {
+	patch: async (req: Request, res: Response, next: NextFunction) => {
 		const id = req.params.id
 		const acc = req.body
 
@@ -34,16 +38,18 @@ const account = {
 				new: true,
 				runValidators: true,
 			}).exec()
+
 			if (found) {
 				return res.status(200).json(found)
 			}
-			return res.status(404).end()
+
+			throw new NotFound(`Account ${id} not found.`)
 		} catch (error) {
-			return res.status(500).json(error)
+			next(error)
 		}
 	},
 
-	delete: async (req: Request, res: Response) => {
+	delete: async (req: Request, res: Response, next: NextFunction) => {
 		const id = req.params.id
 
 		try {
@@ -51,9 +57,10 @@ const account = {
 			if (found) {
 				return res.status(200).json(found)
 			}
-			return res.status(404).end()
+
+			throw new NotFound(`Account ${id} not found.`)
 		} catch (error) {
-			return res.status(500).json(error)
+			next(error)
 		}
 	},
 }

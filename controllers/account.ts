@@ -22,7 +22,7 @@ const account = {
 
 			throw new NotFound(`Account ${id} not found.`)
 		} catch (error) {
-			next(error)
+			return next(error)
 		}
 	},
 
@@ -50,7 +50,7 @@ const account = {
 
 			throw new NotFound(`Account ${id} not found.`)
 		} catch (error) {
-			next(error)
+			return next(error)
 		}
 	},
 
@@ -65,7 +65,7 @@ const account = {
 
 			throw new NotFound(`Account ${id} not found.`)
 		} catch (error) {
-			next(error)
+			return next(error)
 		}
 	},
 }

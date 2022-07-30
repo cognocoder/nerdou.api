@@ -11,7 +11,7 @@ const prefix = 'blocklist:'
 function _create(
 	id: ObjectId,
 	time: number,
-	unit: 'days' | 'hours' | 'minutes'
+	unit: 'days' | 'hours' | 'minutes' | 'seconds'
 ): string {
 	const payload = { id }
 	const token = jwt.sign(payload, key, { expiresIn: `${time} ${unit}` })
@@ -25,7 +25,12 @@ async function _revoked(prefix: string, token: string) {
 	return revoked
 }
 
-async function _verify(token: string): Promise<ObjectId> {
+async function _verify(token: string, type: string): Promise<ObjectId> {
+	const revoked = await _revoked(prefix, token)
+	if (revoked) {
+		throw new jwt.JsonWebTokenError(`The ${type} was revoked.`)
+	}
+
 	const { id } = jwt.verify(token, key)
 	return id
 }
@@ -36,20 +41,16 @@ export const AccessToken = {
 	},
 
 	async verify(token: string) {
-		const revoked = await _revoked(prefix, token)
-		if (revoked) {
-			throw new jwt.JsonWebTokenError('Access Token revoked.')
-		}
-		return _verify(token)
+		return _verify(token, 'access token')
 	},
 
 	async revoke(token: string) {
-		const expiration = jwt.decode(token).exp
 		const hash = sha256(token).toString()
+		const set = await redis.set(`${prefix}:${hash}`, '')
 
-		const set = (await redis.set(`${prefix}:${hash}`, '')) !== null
+		const expiration = jwt.decode(token).exp
 		const expire = await redis.expireAt(`${prefix}:${hash}`, expiration)
 
-		return set && expire
+		return !(set === null) && expire
 	},
 }

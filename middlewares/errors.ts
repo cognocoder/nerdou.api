@@ -23,8 +23,7 @@ const errors = (app: Express) => {
 			status = 401
 		}
 
-		res.status(status)
-		res.json(error)
+		return res.status(status).json(error)
 	})
 
 	return app

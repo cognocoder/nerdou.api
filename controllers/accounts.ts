@@ -22,7 +22,7 @@ const accounts = {
 
 			return res.status(201).json(saved)
 		} catch (error) {
-			next(error)
+			return next(error)
 		}
 	},
 

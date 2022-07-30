@@ -6,6 +6,7 @@ import { BadRequest, Unauthorized } from '../errors/HttpErrors'
 
 import Account from '../models/Account'
 import { AccessToken } from '../tokens/JsonWebToken'
+import { RefreshToken } from '../tokens/OpaqueToken'
 
 export function local(req: Request, res: Response, next: NextFunction) {
 	passport.authenticate('local', { session: false }, (error, user, options) => {
@@ -16,8 +17,6 @@ export function local(req: Request, res: Response, next: NextFunction) {
 		if (options?.message === 'Missing credentials') {
 			throw new Unauthorized('Could not authenticate without user credentials.')
 		}
-
-		console.log(error, user, options)
 
 		const request = req as any
 		request.account = user
@@ -48,4 +47,19 @@ export function bearer(req: Request, res: Response, next: NextFunction) {
 			return next()
 		}
 	)(req, res, next)
+}
+
+export async function refresh(req: Request, res: Response, next: NextFunction) {
+	try {
+		const { refresh } = req.body
+		const id = await RefreshToken.verify(refresh)
+		await RefreshToken.revoke(refresh)
+
+		const request = req as any
+		request.account = await Account.findById(id).exec()
+
+		return next()
+	} catch (error) {
+		return next(error)
+	}
 }

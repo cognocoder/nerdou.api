@@ -11,6 +11,7 @@ const AccountSchema = new mongoose.Schema({
 	},
 	passhash: {
 		type: String,
+		required: true,
 		validate: Patterns.Account.passhash,
 	},
 	username: {

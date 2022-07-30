@@ -25,7 +25,7 @@ async function _revoked(prefix: string, token: string) {
 	return revoked
 }
 
-async function _verify(token: string) {
+async function _verify(token: string): Promise<ObjectId> {
 	const { id } = jwt.verify(token, key)
 	return id
 }

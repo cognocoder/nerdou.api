@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
+import bcryptjs from 'bcryptjs'
 
 import Account from '../models/Account'
 import { MethodNotAllowed, NotFound } from '../errors/HttpErrors'
@@ -32,6 +33,10 @@ const account = {
 	patch: async (req: Request, res: Response, next: NextFunction) => {
 		const id = req.params.id
 		const acc = req.body
+
+		if (acc.passhash) {
+			acc.passhash = await bcryptjs.hash(acc.passhash, 12)
+		}
 
 		try {
 			const found = await Account.findByIdAndUpdate(id, acc, {

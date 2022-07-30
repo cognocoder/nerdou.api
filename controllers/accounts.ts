@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
-import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
+import bcryptjs from 'bcryptjs'
 
 import Account from '../models/Account'
+import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
 
 const allow = 'POST, GET'
 
@@ -10,13 +11,16 @@ const accounts = {
 		const acc = new Account(req.body)
 
 		try {
-			const found = await Account.find({ email: acc.email })
-			if (found.length) {
+			const found = await Account.findOne({ email: acc.email })
+			if (found) {
 				throw new BadRequest(`Account for e-mail ${acc.email} already exists.`)
 			}
 
+			await acc.validate()
+			acc.passhash = await bcryptjs.hash(acc.passhash, 12)
 			const saved = await acc.save()
-			return res.status(201).json(acc)
+
+			return res.status(201).json(saved)
 		} catch (error) {
 			next(error)
 		}

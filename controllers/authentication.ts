@@ -2,36 +2,32 @@ import { NextFunction, Request, Response } from 'express'
 
 import { AccessToken } from '../tokens/JsonWebToken'
 import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
+import { RefreshToken } from '../tokens/OpaqueToken'
+import { ObjectId } from 'mongoose'
 
 const allow = 'POST, DELETE'
 
 const authentication = {
 	post: async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const request = req as any
-			if (!request.account || !request.account.id) {
+			const { account } = req as any
+			if (!account || !account.id) {
 				throw new BadRequest('Cannot create access token for invalid account.')
 			}
 
-			const access = AccessToken.create(request.account.id)
-			res.set('Authorization', access)
+			const access = AccessToken.create(account.id)
+			const refresh = await RefreshToken.create(account.id)
 
-			return res.status(204).end()
+			res.set('Authorization', access)
+			return res.status(200).json({ refresh })
 		} catch (error) {
-			next(error)
+			return next(error)
 		}
 	},
 
 	get: async (req: Request, res: Response) => {
 		throw new MethodNotAllowed(
 			'GET (read) authentication is not allowed.',
-			allow
-		)
-	},
-
-	put: (req: Request, res: Response) => {
-		throw new MethodNotAllowed(
-			'PUT (replace) authentication is not allowed.',
 			allow
 		)
 	},
@@ -48,9 +44,9 @@ const authentication = {
 			const request = req as any
 			const token = request.token
 			await AccessToken.revoke(token)
-			res.status(204).end()
+			return res.status(204).end()
 		} catch (error) {
-			next(error)
+			return next(error)
 		}
 	},
 }

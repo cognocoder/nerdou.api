@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 
+import { verify } from 'crypto'
 import sha256 from 'crypto-js/sha256'
 import { ObjectId } from 'mongoose'
 
@@ -52,5 +53,15 @@ export const AccessToken = {
 		const expire = await redis.expireAt(`${prefix}:${hash}`, expiration)
 
 		return !(set === null) && expire
+	},
+}
+
+export const VerifyToken = {
+	create(id: ObjectId) {
+		return _create(id, 1, 'hours')
+	},
+
+	verify(token: string) {
+		return _verify(token, 'verify token')
 	},
 }

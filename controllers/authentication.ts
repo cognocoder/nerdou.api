@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
 
+import Account from '../models/Account'
 import { AccessToken } from '../tokens/jwt'
-import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
 import { RefreshToken } from '../tokens/opaque'
-import { ObjectId } from 'mongoose'
+import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
 
 const allow = 'POST, DELETE'
 
@@ -25,11 +25,25 @@ const authentication = {
 		}
 	},
 
-	get: async (req: Request, res: Response) => {
-		throw new MethodNotAllowed(
-			'GET (read) authentication is not allowed.',
-			allow
-		)
+	get: async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const request = req as any
+			const account = request.account
+
+			if (account instanceof Account) {
+				account.verified = new Date()
+				await account.save()
+
+				return res.status(200).json(account)
+			}
+
+			throw new BadRequest(
+				`Could not verify given account ${account.id}.`,
+				account
+			)
+		} catch (error) {
+			next(error)
+		}
 	},
 
 	patch: (req: Request, res: Response) => {

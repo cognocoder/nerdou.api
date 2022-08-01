@@ -18,6 +18,7 @@ const AccountSchema = new mongoose.Schema({
 		type: String,
 		validate: Patterns.Account.username,
 	},
+	verified: Date,
 })
 
 const Account = mongoose.model('Account', AccountSchema)

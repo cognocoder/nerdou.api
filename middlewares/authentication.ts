@@ -5,6 +5,7 @@ import passport from '../authentication/strategies'
 import { BadRequest, Unauthorized } from '../errors/HttpErrors'
 
 import Account from '../models/Account'
+import { VerifyToken } from '../tokens/jwt'
 import { RefreshToken } from '../tokens/opaque'
 
 export function local(req: Request, res: Response, next: NextFunction) {
@@ -57,6 +58,20 @@ export async function refresh(req: Request, res: Response, next: NextFunction) {
 		const request = req as any
 		request.account = await Account.findById(id).exec()
 
+		return next()
+	} catch (error) {
+		return next(error)
+	}
+}
+
+export async function verify(req: Request, res: Response, next: NextFunction) {
+	try {
+		const { token } = req.params
+		const id = await VerifyToken.verify(token)
+		const account = await Account.findById(id).exec()
+
+		const request = req as any
+		request.account = account
 		return next()
 	} catch (error) {
 		return next(error)

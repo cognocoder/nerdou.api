@@ -11,10 +11,11 @@ import errors from './middlewares/errors'
 
 const app: Express = express()
 const port = process.env.PORT || 6000
+const endpoint = process.env.ENDPOINT || 'localhost'
 
 connection.on('error', (error) => console.log(error))
 client.on('error', (error) => console.log(error))
 
 routes(app)
 errors(app)
-app.listen(port)
+app.listen(port, () => console.log(`Express @ ${endpoint}:${port}`))

@@ -8,6 +8,9 @@ import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
 const allow = 'POST, DELETE'
 
 const authentication = {
+	/**
+	 * Create an access and a refresh token.
+	 */
 	post: async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const { account } = req as any
@@ -25,10 +28,13 @@ const authentication = {
 		}
 	},
 
+	/**
+	 * Verify account.
+	 */
 	get: async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const request = req as any
-			const account = request.account
+			const { account } = request
 
 			if (account instanceof Account) {
 				account.verified = new Date()
@@ -42,10 +48,13 @@ const authentication = {
 				account
 			)
 		} catch (error) {
-			next(error)
+			return next(error)
 		}
 	},
 
+	/**
+	 * (405) Method Not Allowed.
+	 */
 	patch: (req: Request, res: Response) => {
 		throw new MethodNotAllowed(
 			'PATCH (modify) authentication is not allowed.',
@@ -53,10 +62,13 @@ const authentication = {
 		)
 	},
 
+	/**
+	 * Revoke access and refresh tokens.
+	 */
 	delete: async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const request = req as any
-			const token = request.token
+			const { token } = request
 			await AccessToken.revoke(token)
 			return res.status(204).end()
 		} catch (error) {

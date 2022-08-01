@@ -15,6 +15,10 @@ import verification from '../email/verification'
 const allow = 'POST, GET'
 
 const accounts = {
+	/**
+	 * Create an account with an access and a refresh token, sends a
+	 * verification e-mail.
+	 */
 	post: async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const acc = new Account(req.body)
@@ -43,19 +47,31 @@ const accounts = {
 		}
 	},
 
+	/**
+	 * Get accounts.
+	 */
 	get: async (req: Request, res: Response) => {
 		const accounts = await Account.find()
 		return res.status(200).json(accounts)
 	},
 
+	/**
+	 * (405) Method Not Allowed.
+	 */
 	put: (req: Request, res: Response) => {
 		throw new MethodNotAllowed('PUT (replace) accounts is not allowed.', allow)
 	},
 
+	/**
+	 * (405) Method Not Allowed.
+	 */
 	patch: (req: Request, res: Response) => {
 		throw new MethodNotAllowed('PATCH (modify) accounts is not allowed.', allow)
 	},
 
+	/**
+	 * (405) Method Not Allowed.
+	 */
 	delete: (req: Request, res: Response) => {
 		throw new MethodNotAllowed(
 			'DELETE (remove) accounts is not allowed.',

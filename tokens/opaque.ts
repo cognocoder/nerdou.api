@@ -54,3 +54,13 @@ export const RefreshToken = {
 		return del > 0
 	},
 }
+
+export const ResetToken = {
+	async create(id: ObjectId) {
+		return await _create(id, 1, 'hours')
+	},
+
+	async verify(token: string) {
+		return await _verify(token, 'reset token')
+	},
+}

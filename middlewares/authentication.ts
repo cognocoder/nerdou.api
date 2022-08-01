@@ -20,8 +20,6 @@ export function local(req: Request, res: Response, next: NextFunction) {
 
 		const request = req as any
 		request.account = user
-		request.authenticated = true
-
 		return next()
 	})(req, res, next)
 }
@@ -42,8 +40,6 @@ export function bearer(req: Request, res: Response, next: NextFunction) {
 			const request = req as any
 			request.token = user.token
 			request.account = user.account
-			request.authenticated = true
-
 			return next()
 		}
 	)(req, res, next)

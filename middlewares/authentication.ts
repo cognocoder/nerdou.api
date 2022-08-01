@@ -5,8 +5,7 @@ import passport from '../authentication/strategies'
 import { BadRequest, Unauthorized } from '../errors/HttpErrors'
 
 import Account from '../models/Account'
-import { AccessToken } from '../tokens/JsonWebToken'
-import { RefreshToken } from '../tokens/OpaqueToken'
+import { RefreshToken } from '../tokens/opaque'
 
 export function local(req: Request, res: Response, next: NextFunction) {
 	passport.authenticate('local', { session: false }, (error, user, options) => {

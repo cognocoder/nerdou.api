@@ -5,9 +5,9 @@ import BearerStrategy from 'passport-http-bearer'
 import bcrypt from 'bcryptjs'
 
 import Account from '../models/Account'
-import { AccessToken } from '../tokens/JsonWebToken'
+import { AccessToken } from '../tokens/jwt'
 
-import { NotFound, Unauthorized } from '../errors/HttpErrors'
+import { Unauthorized } from '../errors/HttpErrors'
 
 passport.use(
 	new LocalStrategy.Strategy(

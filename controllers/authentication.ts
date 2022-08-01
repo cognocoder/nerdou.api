@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 
-import { AccessToken } from '../tokens/JsonWebToken'
+import { AccessToken } from '../tokens/jwt'
 import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
-import { RefreshToken } from '../tokens/OpaqueToken'
+import { RefreshToken } from '../tokens/opaque'
 import { ObjectId } from 'mongoose'
 
 const allow = 'POST, DELETE'

@@ -1,4 +1,4 @@
-import express, { Express } from 'express'
+import express, { Express, Request, Response } from 'express'
 import swaggerJsDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 
@@ -27,6 +27,10 @@ const routes = (app: Express) => {
 		swaggerUi.serve,
 		swaggerUi.setup(specs, { explorer: true })
 	)
+
+	app.use('/', (req: Request, res: Response) => {
+		return res.redirect('/documentation')
+	})
 
 	app.use(() => {
 		throw new NotFound('Route (resource or service) not found.')

@@ -5,7 +5,7 @@ import { AccessToken } from '../tokens/jwt'
 import { RefreshToken } from '../tokens/opaque'
 import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
 
-const allow = 'POST, DELETE'
+const allow = 'POST, GET, PUT, DELETE'
 
 const authentication = {
 	/**

@@ -2,19 +2,10 @@ import { NextFunction, Request, Response } from 'express'
 import bcryptjs from 'bcryptjs'
 
 import Account from '../models/Account'
-import { MethodNotAllowed, NotFound } from '../errors/HttpErrors'
+import { NotFound } from '../errors/HttpErrors'
 import { AccessToken } from '../tokens/jwt'
 
-const allow = 'GET, PATCH, DELETE'
-
 const account = {
-	/**
-	 * (405) Method Not Allowed.
-	 */
-	post: (req: Request, res: Response) => {
-		throw new MethodNotAllowed('POST (create) account is not allowed.', allow)
-	},
-
 	/**
 	 * Get account.
 	 */
@@ -31,13 +22,6 @@ const account = {
 		} catch (error) {
 			return next(error)
 		}
-	},
-
-	/**
-	 * (405) Method Not Allowed.
-	 */
-	put: async (req: Request, res: Response) => {
-		throw new MethodNotAllowed('PUT (replace) account is not allowed.', allow)
 	},
 
 	/**

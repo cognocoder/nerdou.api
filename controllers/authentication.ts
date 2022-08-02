@@ -3,9 +3,7 @@ import { NextFunction, Request, Response } from 'express'
 import Account from '../models/Account'
 import { AccessToken } from '../tokens/jwt'
 import { RefreshToken } from '../tokens/opaque'
-import { BadRequest, MethodNotAllowed } from '../errors/HttpErrors'
-
-const allow = 'POST, GET, PUT, DELETE'
+import { BadRequest } from '../errors/HttpErrors'
 
 const authentication = {
 	/**
@@ -50,16 +48,6 @@ const authentication = {
 		} catch (error) {
 			return next(error)
 		}
-	},
-
-	/**
-	 * (405) Method Not Allowed.
-	 */
-	patch: (req: Request, res: Response) => {
-		throw new MethodNotAllowed(
-			'PATCH (modify) authentication is not allowed.',
-			allow
-		)
 	},
 
 	/**

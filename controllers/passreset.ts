@@ -5,13 +5,7 @@ import Account from '../models/Account'
 import { ResetToken } from '../tokens/opaque'
 import mailer from '../email'
 import { email as resetmail } from '../email/passreset'
-import {
-	BadRequest,
-	InternalServerError,
-	MethodNotAllowed,
-} from '../errors/HttpErrors'
-
-const allow = 'POST, PATCH'
+import { BadRequest, InternalServerError } from '../errors/HttpErrors'
 
 const passreset = {
 	/**
@@ -49,20 +43,6 @@ const passreset = {
 	},
 
 	/**
-	 * (405) Method Not Allowed.
-	 */
-	get: (req: Request, res: Response, next: NextFunction) => {
-		throw new MethodNotAllowed('Get (read) passreset is not allowed.', allow)
-	},
-
-	/**
-	 * (405) Method Not Allowed.
-	 */
-	put: (req: Request, res: Response) => {
-		throw new MethodNotAllowed('PUT (replace) passreset is not allowed.', allow)
-	},
-
-	/**
 	 * Redefine account passhash.
 	 */
 	patch: async (req: Request, res: Response, next: NextFunction) => {
@@ -89,16 +69,6 @@ const passreset = {
 		} catch (error) {
 			return next(error)
 		}
-	},
-
-	/**
-	 * (405) Method Not Allowed.
-	 */
-	delete: (req: Request, res: Response) => {
-		throw new MethodNotAllowed(
-			'DELETE (remove) passreset is not allowed.',
-			allow
-		)
 	},
 }
 

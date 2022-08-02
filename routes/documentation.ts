@@ -1,17 +1,13 @@
-import { Express } from 'express'
+import express from 'express'
+import { NotAllowed } from '../controllers/error'
 
-import swaggerJsDoc from 'swagger-jsdoc'
-import swaggerUi from 'swagger-ui-express'
-import options from '../documentation/options'
+const allow = 'GET'
+const router = express.Router()
+router
+	.route('/documentation')
+	.post(NotAllowed('POST (create) documentation in not allowed.', allow))
+	.put(NotAllowed('PUT (replace) documentation in not allowed.', allow))
+	.patch(NotAllowed('PATCH (modify) documentation in not allowed.', allow))
+	.delete(NotAllowed('DELETE (remove) documentation in not allowed.', allow))
 
-const specs = swaggerJsDoc(options)
-
-const documentation = (app: Express) => {
-	app.use(
-		'/documentation',
-		swaggerUi.serve,
-		swaggerUi.setup(specs, { explorer: true })
-	)
-}
-
-export default documentation
+export default router

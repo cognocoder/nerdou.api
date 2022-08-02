@@ -18,4 +18,6 @@ client.on('error', (error) => console.log(error))
 
 routes(app)
 errors(app)
-app.listen(port, () => console.log(`Express @ ${endpoint}:${port}`))
+app.listen(port, () =>
+	console.log(`Express @ http://${endpoint}:${port}/documentation`)
+)

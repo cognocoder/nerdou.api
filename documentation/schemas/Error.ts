@@ -4,18 +4,25 @@
  *   schemas:
  *     Error:
  *       type: object
+ *       required:
+ *       - code
+ *       - status
+ *       - reason
  *       properties:
  *         code:
  *           type: integer
- *           description: HTTP error response status code
+ *           description: HTTP error response status code.
  *         status:
  *           type: string
- *           description: HTTP error response status
+ *           description: HTTP error response status.
  *         reason:
  *           type: string
- *           description: HTTP error response reason
+ *           description: HTTP error response reason.
+ *         allow:
+ *           type: string
+ *           description: Allowed HTTP methods for the resource.
  *       example:
  *         code: 400
  *         status: Bad Request
- *         reason: Account for given e-mail already exists
+ *         reason: Account for given e-mail already exists.
  */

@@ -1,8 +1,5 @@
 /**
  * @swagger
- * tags:
- *   name: Documentation
- *
  * /:
  *   get:
  *     tags: [Documentation]
@@ -12,7 +9,7 @@
  *         headers:
  *           Location:
  *             type: string
- *             description: Resource location (/documentation)
+ *             description: /documentation
  *
  * /documentation:
  *   get:

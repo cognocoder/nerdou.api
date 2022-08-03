@@ -1,5 +1,0 @@
-/**
- * @swagger
- * tags:
- *   name: Accounts
- */

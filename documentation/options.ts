@@ -18,13 +18,16 @@ const options = {
 		servers: [
 			{
 				url: 'http://localhost:6000',
+				description: 'Development',
 			},
 			{
 				url: 'https://api.nerdou.com.br',
+				description: 'Production',
 			},
 		],
 	},
 	apis: [
+		'./documentation/tags.ts',
 		'./documentation/components/*.ts',
 		'./documentation/routes/*.ts',
 		'./documentation/schemas/*.ts',

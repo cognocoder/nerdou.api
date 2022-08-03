@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express, NextFunction, Request, Response } from 'express'
 import swaggerJsDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 
@@ -28,8 +28,11 @@ const routes = (app: Express) => {
 		swaggerUi.setup(specs, { explorer: true })
 	)
 
-	app.use('/', (req: Request, res: Response) => {
-		return res.redirect('/documentation')
+	app.use('/', (req: Request, res: Response, next: NextFunction) => {
+		if (req.url === '/') {
+			return res.redirect('/documentation')
+		}
+		next()
 	})
 
 	app.use(() => {

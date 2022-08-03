@@ -5,7 +5,7 @@ import { AccessToken } from '../tokens/jwt'
 import { RefreshToken } from '../tokens/opaque'
 import { BadRequest } from '../errors/HttpErrors'
 
-const authentication = {
+export const authentication = {
 	/**
 	 * Create an access and a refresh token.
 	 */

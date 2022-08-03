@@ -15,18 +15,15 @@ const specs = swaggerJsDoc(options)
 const routes = (app: Express) => {
 	app.use(
 		express.json(),
-		authentication,
+		authentication.base,
+		authentication.token,
 		account,
 		accounts,
 		documentation,
 		passreset
 	)
 
-	app.use(
-		'/documentation',
-		swaggerUi.serve,
-		swaggerUi.setup(specs, { explorer: true })
-	)
+	app.use('/documentation', swaggerUi.serve, swaggerUi.setup(specs))
 
 	app.use('/', (req: Request, res: Response, next: NextFunction) => {
 		if (req.url === '/') {

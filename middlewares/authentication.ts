@@ -73,3 +73,7 @@ export async function verify(req: Request, res: Response, next: NextFunction) {
 		return next(error)
 	}
 }
+
+const middlewares = { local, bearer, refresh, verify }
+
+export default middlewares

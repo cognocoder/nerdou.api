@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 
 import passport from '../authentication/strategies'
 
-import { BadRequest, Unauthorized } from '../errors/HttpErrors'
+import { Unauthorized } from '../errors/HttpErrors'
 
 import Account from '../models/Account'
 import { VerifyToken } from '../tokens/jwt'
@@ -15,7 +15,7 @@ export function local(req: Request, res: Response, next: NextFunction) {
 		}
 
 		if (options?.message === 'Missing credentials') {
-			throw new Unauthorized('Could not authenticate without user credentials.')
+			throw new Unauthorized('The user credentials is missing.')
 		}
 
 		const request = req as any
@@ -34,7 +34,7 @@ export function bearer(req: Request, res: Response, next: NextFunction) {
 			}
 
 			if (!user) {
-				throw new BadRequest('Could not authenticate without bearer token.')
+				throw new Unauthorized('The access token is missing.')
 			}
 
 			const request = req as any
@@ -51,8 +51,9 @@ export async function refresh(req: Request, res: Response, next: NextFunction) {
 		const id = await RefreshToken.verify(refresh)
 		await RefreshToken.revoke(refresh)
 
+		const account = await Account.findById(id).exec()
 		const request = req as any
-		request.account = await Account.findById(id).exec()
+		request.account = account
 
 		return next()
 	} catch (error) {
@@ -64,8 +65,8 @@ export async function verify(req: Request, res: Response, next: NextFunction) {
 	try {
 		const { token } = req.params
 		const id = await VerifyToken.verify(token)
-		const account = await Account.findById(id).exec()
 
+		const account = await Account.findById(id).exec()
 		const request = req as any
 		request.account = account
 		return next()

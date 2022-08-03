@@ -3,7 +3,7 @@ import { customAlphabet as nanoid } from 'nanoid'
 import { DateTime } from 'luxon'
 
 import redis from '../databases/redis'
-import { Unauthorized } from '../errors/HttpErrors'
+import { InternalServerError, Unauthorized } from '../errors/HttpErrors'
 
 const Base64 =
 	'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
@@ -24,7 +24,14 @@ async function _create(
 		.toUnixInteger()
 	const expire = await redis.expireAt(key, expiration)
 
-	return token
+	if (set?.length && expire) {
+		return token
+	}
+
+	throw new InternalServerError('Could not create opaque token.', {
+		set,
+		expire,
+	})
 }
 
 async function _verify(token: string, type: string) {
@@ -34,7 +41,7 @@ async function _verify(token: string, type: string) {
 
 	const id = await redis.get(`${prefix}:${token}`)
 	if (!id) {
-		throw new Unauthorized(`The ${type} is invalid or expired.`)
+		throw new Unauthorized(`The ${type} is invalid, expired or revoked.`)
 	}
 
 	return id

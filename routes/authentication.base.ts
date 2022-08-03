@@ -8,8 +8,8 @@ const allow = 'POST, PUT, DELETE'
 export const base = express.Router()
 base
 	.route('/authentication')
-	.post(middlewares.local, controller.post)
-	.put(middlewares.refresh, controller.post)
+	.post(middlewares.local, controller.update)
+	.put(middlewares.refresh, controller.update)
 	.delete([middlewares.refresh, middlewares.bearer], controller.delete)
 	.patch(NotAllowed('PATCH (modify) authentication is not allowed.', allow))
 	.get(NotAllowed('GET (read) authentication is not allowed.', allow))

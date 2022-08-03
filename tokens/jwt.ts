@@ -29,7 +29,7 @@ async function _revoked(prefix: string, token: string) {
 async function _verify(token: string, type: string): Promise<ObjectId> {
 	const revoked = await _revoked(prefix, token)
 	if (revoked) {
-		throw new jwt.JsonWebTokenError(`The ${type} was revoked.`)
+		throw new jwt.JsonWebTokenError(`The ${type} is expired or revoked.`)
 	}
 
 	const { id } = jwt.verify(token, key)

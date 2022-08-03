@@ -3,13 +3,13 @@ import { NextFunction, Request, Response } from 'express'
 import Account from '../models/Account'
 import { AccessToken } from '../tokens/jwt'
 import { RefreshToken } from '../tokens/opaque'
-import { BadRequest } from '../errors/HttpErrors'
+import { BadRequest, Unauthorized } from '../errors/HttpErrors'
 
 export const authentication = {
 	/**
 	 * Create an access and a refresh token.
 	 */
-	post: async (req: Request, res: Response, next: NextFunction) => {
+	update: async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const { account } = req as any
 			if (!account || !account.id) {
@@ -58,6 +58,7 @@ export const authentication = {
 			const request = req as any
 			const { token } = request
 			await AccessToken.revoke(token)
+
 			return res.status(204).end()
 		} catch (error) {
 			return next(error)

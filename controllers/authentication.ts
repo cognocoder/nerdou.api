@@ -3,18 +3,15 @@ import { NextFunction, Request, Response } from 'express'
 import Account from '../models/Account'
 import { AccessToken } from '../tokens/jwt'
 import { RefreshToken } from '../tokens/opaque'
-import { BadRequest, Unauthorized } from '../errors/HttpErrors'
+import { BadRequest } from '../errors/HttpErrors'
 
 export const authentication = {
 	/**
-	 * Create an access and a refresh token.
+	 * Create or update an access and a refresh token.
 	 */
 	update: async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const { account } = req as any
-			if (!account || !account.id) {
-				throw new BadRequest('Cannot create access token for invalid account.')
-			}
 
 			const access = AccessToken.create(account.id)
 			const refresh = await RefreshToken.create(account.id)
@@ -41,10 +38,7 @@ export const authentication = {
 				return res.status(200).json(account)
 			}
 
-			throw new BadRequest(
-				`Could not verify given account ${account.id}.`,
-				account
-			)
+			throw new BadRequest(`The account was not verify.`, { account })
 		} catch (error) {
 			return next(error)
 		}

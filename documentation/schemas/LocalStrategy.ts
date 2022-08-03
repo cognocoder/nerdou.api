@@ -1,0 +1,20 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     LocalStrategy:
+ *       type: object
+ *       required:
+ *       - username
+ *       - password
+ *       properties:
+ *         username:
+ *           type: string
+ *           pattern: ^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$
+ *         password:
+ *           type: string
+ *           pattern: ^.{8,}$
+ *       example:
+ *         username: tester@tester.test
+ *         password: testerbot
+ */

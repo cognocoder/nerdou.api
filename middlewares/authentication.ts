@@ -15,7 +15,7 @@ export function local(req: Request, res: Response, next: NextFunction) {
 		}
 
 		if (options?.message === 'Missing credentials') {
-			throw new Unauthorized('The user credentials is missing.')
+			throw new Unauthorized('The user credentials are missing.')
 		}
 
 		const request = req as any
@@ -67,8 +67,13 @@ export async function verify(req: Request, res: Response, next: NextFunction) {
 		const id = await VerifyToken.verify(token)
 
 		const account = await Account.findById(id).exec()
+		if (!account) {
+			throw new Unauthorized(`The account ${id} was not found.`, { token })
+		}
+
 		const request = req as any
 		request.account = account
+
 		return next()
 	} catch (error) {
 		return next(error)

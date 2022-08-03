@@ -1,10 +1,7 @@
 /**
  * @swagger
  * components:
- *   securitySchemas:
- *     local:
- *       type: http
- *       scheme: basic
+ *   securitySchemes:
  *     bearer:
  *       type: http
  *       scheme: bearer

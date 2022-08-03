@@ -1,26 +1,30 @@
 /**
  * @swagger
  * /authentication:
- *   delete:
+ *   put:
  *     tags: [Authentication]
- *     summary: Revoke access and refresh tokens
- *     description:
- *     parameters:
- *     - in: header
- *       name: Authorization
- *       required: true
- *       description: Access Token - Bearer Json Web Token
- *       schema:
- *         $ref: '#/components/schemas/AccessToken'
+ *     summary: Update access and refresh tokens
  *     requestBody:
  *       description: Refresh Token - Opaque Token
  *       content:
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/RefreshToken'
+ *           example:
+ *             refresh: mJXTE/UFJu+/sJ5UrNr6YNvu
  *     responses:
- *       '204':
- *         description: No Content
+ *       '200':
+ *         description: Ok
+ *         headers:
+ *           Authorization:
+ *             schema:
+ *               $ref: '#/components/schemas/AccessToken'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/RefreshToken'
+ *             example:
+ *               refresh: XVUSaeGsUMJC/gScPImRoP5g
  *       '401':
  *         description: Unauthorized
  *         content:
@@ -40,6 +44,16 @@
  *               invalid_access:
  *                 summary: The access token is invalid, expired or revoked
  *                 value: { "code": 401, "status": "Unauthorized", "reason": "The access token is invalid, expired or revoked." }
+ *       '500':
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             examples:
+ *               create_token:
+ *                 summary: Could not create opaque token
+ *                 value: { "code": 500, "status": "Internal Server Error", "reason": "Could not create opaque token." }
  *     security:
  *     - bearer: []
  */

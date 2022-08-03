@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 
-import { verify } from 'crypto'
 import sha256 from 'crypto-js/sha256'
 import { ObjectId } from 'mongoose'
 
@@ -29,7 +28,9 @@ async function _revoked(prefix: string, token: string) {
 async function _verify(token: string, type: string): Promise<ObjectId> {
 	const revoked = await _revoked(prefix, token)
 	if (revoked) {
-		throw new jwt.JsonWebTokenError(`The ${type} is expired or revoked.`)
+		throw new jwt.JsonWebTokenError(
+			`The ${type} is invalid, expired or revoked.`
+		)
 	}
 
 	const { id } = jwt.verify(token, key)

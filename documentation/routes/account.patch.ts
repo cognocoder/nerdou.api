@@ -1,19 +1,30 @@
 /**
  * @swagger
- * /authentication:
- *   delete:
- *     tags: [Authentication]
- *     summary: Revoke access and refresh tokens
- *     description:
+ * /accounts/{id}:
+ *   patch:
+ *     tags: [Account]
+ *     summary: Modify an account
+ *     parameters:
+ *     - in: path
+ *       name: id
+ *       required: true
+ *       schema:
+ *         type: string
  *     requestBody:
- *       description: Refresh Token - Opaque Token
+ *       description: Properties to be updated
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/RefreshToken'
+ *             $ref: '#/components/schemas/Account'
+ *           example:
+ *             username: tester
  *     responses:
- *       '204':
- *         description: No Content
+ *       '200':
+ *         description: Ok
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Account'
  *       '401':
  *         description: Unauthorized
  *         content:
@@ -24,18 +35,22 @@
  *               account_not_found:
  *                 summary: The account was not found
  *                 value: { "code": 401, "status": "Unauthorized", "reason": "The account was not found." }
- *               missing_refresh:
- *                 summary: The refresh token is missing
- *                 value: { "code": 401, "status": "Unauthorized", "reason": "The refresh token is missing." }
- *               invalid_refresh:
- *                 summary: The refresh token is invalid, expired or revoked
- *                 value: { "code": 401, "status": "Unauthorized", "reason": "The refresh token is invalid, expired or revoked." }
  *               missing_access:
  *                 summary: The access token is missing
  *                 value: { "code": 401, "status": "Unauthorized", "reason": "The access token is missing." }
  *               invalid_access:
  *                 summary: The access token is invalid, expired or revoked
  *                 value: { "code": 401, "status": "Unauthorized", "reason": "The access token is invalid, expired or revoked." }
+ *       '404':
+ *         description: Not Found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             examples:
+ *               account_not_found:
+ *                 summary: The account was not found
+ *                 value: { "code": 401, "status": "Unauthorized", "reason": "The account was not found." }
  *     security:
  *     - bearer: []
  */

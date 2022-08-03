@@ -14,7 +14,7 @@ passport.use(
 		{ session: false },
 		async (username, password, done) => {
 			try {
-				const str = `Could not authenticate account ${username} with given credentials.`
+				const str = 'Authentication failed with given credentials.'
 
 				const acc = await Account.findOne({ email: username }).exec()
 				if (!acc) throw new Unauthorized(str)
@@ -36,7 +36,7 @@ passport.use(
 			const id = await AccessToken.verify(token)
 			const account = await Account.findById(id).exec()
 			if (!account) {
-				throw new Unauthorized(`Account identified by ${id} not found.`)
+				throw new Unauthorized(`The account was not found.`, { id })
 			}
 
 			done(null, { account, token })

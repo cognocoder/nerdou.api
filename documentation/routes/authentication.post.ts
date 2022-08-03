@@ -5,7 +5,6 @@
  *     tags: [Authentication]
  *     summary: Create access and refresh tokens
  *     requestBody:
- *       description: Refresh Token - Opaque Token
  *       content:
  *         application/json:
  *           schema:
@@ -37,8 +36,8 @@
  *                 summary: The user credentials are missing
  *                 value: { "code": 401, "status": "Unauthorized", "reason": "The user credentials are missing." }
  *               wrong_user_credentials:
- *                 summary: Could not authenticate account with given credentials
- *                 value: { "code": 401, "status": "Unauthorized", "reason": "Could not authenticate account tester@tester.test with given credentials." }
+ *                 summary: Authentication failed with given credentials
+ *                 value: { "code": 401, "status": "Unauthorized", "reason": "Authentication failed with given credentials." }
  *       '500':
  *         description: Internal Server Error
  *         content:

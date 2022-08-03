@@ -16,18 +16,18 @@ const passreset = {
 			const request = req as any
 			const { email } = request.body
 			if (!email?.length) {
-				throw new BadRequest('The request e-mail property is missing.')
+				throw new BadRequest('The e-mail is missing.')
 			}
 
 			const account = await Account.findOne({ email }).exec()
 			if (!account) {
-				throw new BadRequest(`The account for e-mail ${email} was not found.`)
+				throw new BadRequest('The account was not found.', { email })
 			}
 
 			const token = await ResetToken.create(account.id)
 			const config = await mailer.config()
 			if (!config.auth.user) {
-				throw new InternalServerError('Missing mailer configuration.')
+				throw new InternalServerError('The mailer configuration is missing.')
 			}
 
 			const mail = resetmail(config.auth.user, email, token)
@@ -53,13 +53,13 @@ const passreset = {
 				throw new BadRequest('The reset token is invalid.')
 			}
 			if (!passhash?.length) {
-				throw new BadRequest('The new password is missing.')
+				throw new BadRequest('The password is missing.')
 			}
 
 			const id = await ResetToken.verify(token)
 			const account = await Account.findById(id).exec()
 			if (!account) {
-				throw new BadRequest(`The account ${id} was not found.`)
+				throw new BadRequest('The account was not found.', { id })
 			}
 
 			account.passhash = await bcryptjs.hash(passhash, 12)

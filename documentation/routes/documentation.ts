@@ -3,9 +3,10 @@
  * /:
  *   get:
  *     tags: [Documentation]
+ *     summary: Redirects to the documentation page
  *     responses:
  *       '302':
- *         description: Redirects the to documentation page.
+ *         description: Redirects to the documentation page.
  *         headers:
  *           Location:
  *             type: string

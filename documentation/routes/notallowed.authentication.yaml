@@ -8,7 +8,7 @@
         description: Method Not Allowed
         headers:
           Allow:
-            description: Allowed methods.
+            description: Allowed methods
             schema:
               type: string
               example: POST, PUT, DELETE
@@ -30,7 +30,7 @@
         description: Method Not Allowed
         headers:
           Allow:
-            description: Allowed methods.
+            description: Allowed methods
             schema:
               type: string
               example: POST, PUT, DELETE
@@ -61,7 +61,7 @@
         description: Method Not Allowed
         headers:
           Allow:
-            description: Allowed methods.
+            description: Allowed methods
             schema:
               type: string
               example: GET
@@ -89,7 +89,7 @@
         description: Method Not Allowed
         headers:
           Allow:
-            description: Allowed methods.
+            description: Allowed methods
             schema:
               type: string
               example: GET
@@ -117,7 +117,7 @@
         description: Method Not Allowed
         headers:
           Allow:
-            description: Allowed methods.
+            description: Allowed methods
             schema:
               type: string
               example: GET
@@ -145,7 +145,7 @@
         description: Method Not Allowed
         headers:
           Allow:
-            description: Allowed methods.
+            description: Allowed methods
             schema:
               type: string
               example: GET

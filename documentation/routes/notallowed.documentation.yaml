@@ -7,7 +7,7 @@
         description: Method Not Allowed
         headers:
           Allow:
-            description: Allowed methods.
+            description: Allowed methods
             schema:
               type: string
               example: GET
@@ -29,7 +29,7 @@
         description: Method Not Allowed
         headers:
           Allow:
-            description: Allowed methods.
+            description: Allowed methods
             schema:
               type: string
               example: GET
@@ -51,7 +51,7 @@
         description: Method Not Allowed
         headers:
           Allow:
-            description: Allowed methods.
+            description: Allowed methods
             schema:
               type: string
               example: GET
@@ -73,7 +73,7 @@
         description: Method Not Allowed
         headers:
           Allow:
-            description: Allowed methods.
+            description: Allowed methods
             schema:
               type: string
               example: GET

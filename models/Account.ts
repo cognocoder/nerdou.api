@@ -1,8 +1,15 @@
-import mongoose, { Document } from 'mongoose'
+import { model, Document, Model, Schema } from 'mongoose'
 
 import Patterns from '../validators/patterns'
 
-const AccountSchema = new mongoose.Schema({
+export interface IAccount extends Document {
+	email: string
+	passhash: string
+	username?: string
+	verified?: Date
+}
+
+const AccountSchema: Schema = new Schema<IAccount>({
 	email: {
 		type: String,
 		unique: true,
@@ -21,6 +28,6 @@ const AccountSchema = new mongoose.Schema({
 	verified: Date,
 })
 
-const Account = mongoose.model('Account', AccountSchema)
+const Account = model<IAccount>('Account', AccountSchema)
 
 export default Account

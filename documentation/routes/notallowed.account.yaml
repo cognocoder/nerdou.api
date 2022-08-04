@@ -12,6 +12,13 @@
     responses:
       '405':
         description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods.
+            schema:
+              type: string
+              example: GET, PATCH, DELETE
+              required: true
         content:
           application/json:
             schema:
@@ -33,6 +40,13 @@
     responses:
       '405':
         description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods.
+            schema:
+              type: string
+              example: GET, PATCH, DELETE
+              required: true
         content:
           application/json:
             schema:

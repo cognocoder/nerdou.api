@@ -6,6 +6,13 @@
     responses:
       '405':
         description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods.
+            schema:
+              type: string
+              example: POST, PUT, DELETE
+              required: true
         content:
           application/json:
             schema:
@@ -21,6 +28,13 @@
     responses:
       '405':
         description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods.
+            schema:
+              type: string
+              example: POST, PUT, DELETE
+              required: true
         content:
           application/json:
             schema:
@@ -45,6 +59,13 @@
     responses:
       '405':
         description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods.
+            schema:
+              type: string
+              example: GET
+              required: true
         content:
           application/json:
             schema:
@@ -53,7 +74,7 @@
               code: 405
               status: Method Not Allowed
               reason: POST (create) an authentication token is not allowed.
-              allow: GET, PATCH
+              allow: GET
   put:
     tags: [Not Allowed]
     summary: Method Not Allowed
@@ -66,6 +87,13 @@
     responses:
       '405':
         description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods.
+            schema:
+              type: string
+              example: GET
+              required: true
         content:
           application/json:
             schema:
@@ -87,6 +115,13 @@
     responses:
       '405':
         description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods.
+            schema:
+              type: string
+              example: GET
+              required: true
         content:
           application/json:
             schema:
@@ -95,7 +130,7 @@
               code: 405
               status: Method Not Allowed
               reason: PATCH (modify) an authentication token is not allowed.
-              allow: GET, PATCH
+              allow: GET
   delete:
     tags: [Not Allowed]
     summary: Method Not Allowed
@@ -108,6 +143,13 @@
     responses:
       '405':
         description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods.
+            schema:
+              type: string
+              example: GET
+              required: true
         content:
           application/json:
             schema:
@@ -116,4 +158,4 @@
               code: 405
               status: Method Not Allowed
               reason: DELETE (remove) an authentication token is not allowed.
-              allow: GET, PATCH
+              allow: GET

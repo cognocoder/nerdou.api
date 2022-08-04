@@ -57,8 +57,8 @@
                 summary: The account was not found
                 value:
                   {
-                    'code': 401,
-                    'status': 'Unauthorized',
+                    'code': 404,
+                    'status': 'Not Found',
                     'reason': 'The account was not found.',
                   }
     security:

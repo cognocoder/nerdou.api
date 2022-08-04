@@ -1,0 +1,46 @@
+/accounts:
+  put:
+    tags: [Not Allowed]
+    summary: Method Not Allowed
+    responses:
+      '405':
+        description: Method Not Allowed
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              code: 405
+              status: Method Not Allowed
+              reason: PUT (replace) accounts is not allowed.
+              allow: GET, POST
+  patch:
+    tags: [Not Allowed]
+    summary: Method Not Allowed
+    responses:
+      '405':
+        description: Method Not Allowed
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              code: 405
+              status: Method Not Allowed
+              reason: PATCH (modify) accounts is not allowed.
+              allow: GET, POST
+  delete:
+    tags: [Not Allowed]
+    summary: Method Not Allowed
+    responses:
+      '405':
+        description: Method Not Allowed
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              code: 405
+              status: Method Not Allowed
+              reason: DELETE (remove) accounts is not allowed.
+              allow: GET, POST

@@ -27,10 +27,10 @@ const options = {
 		],
 	},
 	apis: [
-		'./documentation/tags.ts',
-		'./documentation/components/*.ts',
-		'./documentation/routes/*.ts',
-		'./documentation/schemas/*.ts',
+		'./documentation/tags.yaml',
+		'./documentation/components/*.yaml',
+		'./documentation/routes/*.yaml',
+		'./documentation/schemas/*.yaml',
 	],
 }
 

@@ -7,3 +7,6 @@ dist
 
 # env files
 .env
+
+# jest
+coverage

@@ -8,8 +8,14 @@ import Account from '../models/Account'
 import { VerifyToken } from '../tokens/jwt'
 import { RefreshToken } from '../tokens/opaque'
 
-export function local(req: Request, res: Response, next: NextFunction) {
-	passport.authenticate('local', { session: false }, (error, user, options) => {
+export const authenticate = {
+	local: (
+		req: Request,
+		next: NextFunction,
+		error: any,
+		user?: any,
+		options?: any
+	) => {
 		if (error) {
 			return next(error)
 		}
@@ -21,6 +27,12 @@ export function local(req: Request, res: Response, next: NextFunction) {
 		const request = req as any
 		request.account = user
 		return next()
+	},
+}
+
+export function local(req: Request, res: Response, next: NextFunction) {
+	passport.authenticate('local', { session: false }, (error, user, options) => {
+		return authenticate.local(req, next, error, user, options)
 	})(req, res, next)
 }
 

@@ -1,8 +1,9 @@
-import { model, Document, Model, Schema } from 'mongoose'
+import { model, Document, Schema, ObjectId } from 'mongoose'
 
 import Patterns from '../validators/patterns'
 
 export interface IAccount extends Document {
+	_id?: ObjectId
 	email: string
 	passhash: string
 	username?: string

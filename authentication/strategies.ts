@@ -46,6 +46,8 @@ export const bearer: BearerStrategy.VerifyFunction = async (
 	}
 }
 
+export const strategies = { local, bearer }
+
 passport.use(new LocalStrategy.Strategy({ session: false }, local))
 passport.use(new BearerStrategy.Strategy(bearer))
 

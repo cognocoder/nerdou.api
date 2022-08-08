@@ -1,7 +1,7 @@
 import express from 'express'
 
 import accounts from '../controllers/accounts'
-import { bearer } from '../middlewares/authentication'
+import { handler as bearer } from '../middlewares/authentication/bearer'
 import { NotAllowed } from '../controllers/error'
 
 const allow = 'POST, GET'

@@ -1,0 +1,113 @@
+/verify/{token}:
+  post:
+    tags: [Not Allowed]
+    summary: Method Not Allowed
+    parameters:
+      - in: path
+        name: token
+        required: true
+        schema:
+          type: string
+    responses:
+      '405':
+        description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods
+            schema:
+              type: string
+              example: GET
+              required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              code: 405
+              status: Method Not Allowed
+              reason: POST (create) verify/:token is not allowed.
+              allow: GET
+  put:
+    tags: [Not Allowed]
+    summary: Method Not Allowed
+    parameters:
+      - in: path
+        name: token
+        required: true
+        schema:
+          type: string
+    responses:
+      '405':
+        description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods
+            schema:
+              type: string
+              example: GET
+              required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              code: 405
+              status: Method Not Allowed
+              reason: PUT (replace) verify/:token is not allowed.
+              allow: GET, PATCH
+  patch:
+    tags: [Not Allowed]
+    summary: Method Not Allowed
+    parameters:
+      - in: path
+        name: token
+        required: true
+        schema:
+          type: string
+    responses:
+      '405':
+        description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods
+            schema:
+              type: string
+              example: GET
+              required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              code: 405
+              status: Method Not Allowed
+              reason: PATCH (modify) verify/:token is not allowed.
+              allow: GET
+  delete:
+    tags: [Not Allowed]
+    summary: Method Not Allowed
+    parameters:
+      - in: path
+        name: token
+        required: true
+        schema:
+          type: string
+    responses:
+      '405':
+        description: Method Not Allowed
+        headers:
+          Allow:
+            description: Allowed methods
+            schema:
+              type: string
+              example: GET
+              required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              code: 405
+              status: Method Not Allowed
+              reason: DELETE (remove) verify/:token is not allowed.
+              allow: GET

@@ -1,7 +1,8 @@
 import express from 'express'
 
 import account from '../controllers/account'
-import { local, bearer } from '../middlewares/authentication'
+import { handler as local } from '../middlewares/authentication/local'
+import { handler as bearer } from '../middlewares/authentication/bearer'
 import { NotAllowed } from '../controllers/error'
 
 const allow = 'GET, PATCH, DELETE'

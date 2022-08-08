@@ -1,4 +1,4 @@
-/authetication/{token}:
+/verify/{token}:
   get:
     tags: [Authentication]
     summary: Verify an account

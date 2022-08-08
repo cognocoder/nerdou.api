@@ -4,6 +4,7 @@ import swaggerUi from 'swagger-ui-express'
 
 import { NotFound } from '../errors/HttpErrors'
 import authentication from '../routes/authentication'
+import verify from '../routes/verify'
 import account from '../routes/account'
 import accounts from '../routes/accounts'
 import documentation from '../routes/documentation'
@@ -15,8 +16,8 @@ const specs = swaggerJsDoc(options)
 const routes = (app: Express) => {
 	app.use(
 		express.json(),
-		authentication.base,
-		authentication.token,
+		authentication,
+		verify,
 		account,
 		accounts,
 		documentation,

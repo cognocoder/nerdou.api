@@ -1,8 +1,13 @@
 import { HydratedDocument } from 'mongoose'
 import Account, { IAccount } from '../../models/Account'
 
+import { JsonWebTokenError } from 'jsonwebtoken'
+
 const username = 'tester@tester.test'
 const password = 'testerbot'
+
+const access =
+	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZWFlYzcwYTI0ZGU0MTA2NzNmN2I2YSIsImlhdCI6MTY1OTk3MjIwNywiZXhwIjoxNjU5OTczMTA3fQ.wMXBAdNBqK2YHHO0EoCu60ibBPw_9G3w308gZj8O89k'
 
 const account: HydratedDocument<IAccount> = new Account({
 	email: 'tester@tester.test',
@@ -11,18 +16,11 @@ const account: HydratedDocument<IAccount> = new Account({
 	_id: '62e96d93428187ac34956f2b',
 })
 
-const findTester = (username: string) => {
-	if (username === 'tester@tester.test') {
-		return account
-	}
-	return null
-}
-
 const TesterAccount = {
 	username,
 	password,
+	access,
 	account,
-	findTester,
 }
 
 export default TesterAccount

@@ -1,7 +1,8 @@
 tags:
-- name: Account
-- name: Accounts
-- name: Authentication
-- name: Documentation
-- name: Not Found
-- name: Not Allowed
+  - name: Account
+  - name: Accounts
+  - name: Authentication
+  - name: Documentation
+  - name: Not Found
+  - name: Not Allowed
+  - name: Verify

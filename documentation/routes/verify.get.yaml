@@ -1,6 +1,6 @@
 /verify/{token}:
   get:
-    tags: [Authentication]
+    tags: [Verify]
     summary: Verify an account
     description: Verify an account using a Json Web Token.
     parameters:

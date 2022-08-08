@@ -1,8 +1,8 @@
 import { getMockReq } from '@jest-mock/express'
 
-import { callback as local } from '../../middlewares/authentication/local'
-import TesterAccount from '../utils/TesterAccount'
-import { Unauthorized } from '../../errors/HttpErrors'
+import { callback as local } from '../../../middlewares/authentication/local'
+import TesterAccount from '../../utils/TesterAccount'
+import { Unauthorized } from '../../../errors/HttpErrors'
 
 const req = getMockReq()
 const next = () => {}

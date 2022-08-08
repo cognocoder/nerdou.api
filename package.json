@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "npx tsc",
     "debug": "npx tsc --sourcemap",
-    "start": "index.ts",
+    "start": "dist/index.js",
     "dev": "concurrently 'npx tsc --watch' 'nodemon -q dist/index.js'"
   },
   "keywords": [],

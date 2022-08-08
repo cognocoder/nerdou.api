@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
+import { Unauthorized } from '../../errors/HttpErrors'
 
 import Account from '../../models/Account'
 import { RefreshToken } from '../../tokens/opaque'
@@ -10,6 +11,10 @@ export async function handler(req: Request, res: Response, next: NextFunction) {
 		await RefreshToken.revoke(refresh)
 
 		const account = await Account.findById(id).exec()
+		if (!account) {
+			throw new Unauthorized('The account was not found.', { id })
+		}
+
 		const request = req as any
 		request.account = account
 

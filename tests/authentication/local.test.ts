@@ -9,21 +9,34 @@ function done(error: any, user?: any, options?: IVerifyOptions | undefined) {
 	if (error) throw error
 }
 
-const { username, password, account } = TesterAccount
-
 describe('local authentication strategy', () => {
 	jest
 		.spyOn(Account, 'findOne')
 		.mockReturnValue({ exec: async () => null } as any)
-		.mockReturnValueOnce({ exec: async () => account } as any)
-		.mockReturnValueOnce({ exec: async () => account } as any)
 
 	it('should authenticate user with correct credentials', async () => {
+		const { account } = TesterAccount
+
+		jest
+			.spyOn(Account, 'findOne')
+			.mockReturnValueOnce({ exec: async () => account } as any)
+
+		const username = TesterAccount.username
+		const password = TesterAccount.password
+
 		const result = await local(username, password, done)
 		expect(result).toBeUndefined()
 	})
 
 	it('should not authenticate user with wrong password', async () => {
+		const { account } = TesterAccount
+
+		jest
+			.spyOn(Account, 'findOne')
+			.mockReturnValueOnce({ exec: async () => account } as any)
+
+		const username = TesterAccount.username
+
 		await expect(() => local(username, 'wrongpass', done)).rejects.toThrowError(
 			Unauthorized
 		)

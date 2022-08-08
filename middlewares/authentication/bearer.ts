@@ -20,8 +20,9 @@ export function callback(
 	}
 
 	const request = req as any
-	request.token = user.token
-	request.account = user.account
+	const { token, account } = user
+	request.token = token
+	request.account = account
 	return next()
 }
 

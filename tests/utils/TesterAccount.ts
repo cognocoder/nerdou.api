@@ -8,6 +8,7 @@ const password = 'testerbot'
 
 const access =
 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZWFlYzcwYTI0ZGU0MTA2NzNmN2I2YSIsImlhdCI6MTY1OTk3MjIwNywiZXhwIjoxNjU5OTczMTA3fQ.wMXBAdNBqK2YHHO0EoCu60ibBPw_9G3w308gZj8O89k'
+const refresh = 'HqQYSIkCInMEPDVNNOGuJT4z'
 
 const account: HydratedDocument<IAccount> = new Account({
 	email: 'tester@tester.test',
@@ -21,6 +22,7 @@ const TesterAccount = {
 	password,
 	access,
 	account,
+	refresh,
 }
 
 export default TesterAccount

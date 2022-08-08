@@ -13,7 +13,7 @@ export const bearer: BearerStrategy.VerifyFunction = async (
 		const id = await AccessToken.verify(token)
 		const account = await Account.findById(id).exec()
 		if (!account) {
-			throw new Unauthorized(`The account was not found.`, { id })
+			throw new Unauthorized('The account was not found.', { id })
 		}
 
 		done(null, { account, token })

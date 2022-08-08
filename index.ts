@@ -12,7 +12,7 @@ import mongoose from 'mongoose'
 
 const app: Express = express()
 const port = process.env.PORT || 6000
-const endpoint = process.env.ENDPOINT || 'localhost'
+const endpoint = process.env.ENDPOINT || 'http://localhost'
 
 mongo.connect()
 mongo.connection.on('error', (error) => console.log(error))
@@ -22,5 +22,5 @@ redis.on('error', (error) => console.log(error))
 routes(app)
 errors(app)
 app.listen(port, () =>
-	console.log(`Express @ http://${endpoint}:${port}/documentation`)
+	console.log(`Express @ ${endpoint}:${port}/documentation`)
 )

@@ -33,12 +33,14 @@ describe('bearer authentication strategy', () => {
 	})
 
 	it('should not authenticate token for an account not found', async () => {
-		await expect(() => bearer(access, done)).rejects.toThrowError(Unauthorized)
+		await expect(() =>
+			bearer('access token is well formed, but account does not exist', done)
+		).rejects.toThrowError(Unauthorized)
 	})
 
 	it('should not authenticate an invalid token', async () => {
-		await expect(() => bearer(access, done)).rejects.toThrowError(
-			JsonWebTokenError
-		)
+		await expect(() =>
+			bearer('invalid access token', done)
+		).rejects.toThrowError(JsonWebTokenError)
 	})
 })

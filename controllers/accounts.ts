@@ -16,13 +16,13 @@ export const accounts = {
 	post: async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const acc = new Account(req.body)
-			const found = await Account.findOne({ email: acc.email })
+			const found = await Account.findOne({ email: acc.email }).exec()
 			if (found) {
 				throw new BadRequest(`Account for e-mail ${acc.email} already exists.`)
 			}
 
 			await acc.validate()
-			acc.passhash = await bcryptjs.hash(acc.passhash, 12)
+			acc.passhash = await bcryptjs.hash(acc.passhash, 10)
 			const saved = await acc.save()
 
 			const token = VerifyToken.create(acc.id)

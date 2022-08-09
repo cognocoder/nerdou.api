@@ -6,10 +6,11 @@ export interface EmailConfig {
 		user?: string
 		pass?: string
 	}
+	secure?: boolean
 }
 
-export async function config(): Promise<EmailConfig> {
-	const config = {
+export async function config() {
+	const config: EmailConfig = {
 		host: process.env.EMAIL_HOST,
 		auth: {
 			user: process.env.EMAIL_USER,

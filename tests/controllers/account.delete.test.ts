@@ -5,6 +5,7 @@ import { account as controller } from '../../controllers/account'
 import Account from '../../models/Account'
 import TesterAccount from '../utils/TesterAccount'
 import { NotFound } from '../../errors/HttpErrors'
+import { AccessToken } from '../../tokens/jwt'
 
 let req: Request
 let res: Response
@@ -18,7 +19,7 @@ const spies: {
 	json?: jest.SpyInstance<Response>
 } = {}
 
-describe('get requests for account controller', () => {
+describe('delete requests for account controller', () => {
 	beforeEach(() => {
 		req = getMockReq()
 		res = getMockRes().res
@@ -28,18 +29,23 @@ describe('get requests for account controller', () => {
 	})
 
 	jest
-		.spyOn(Account, 'findById')
+		.spyOn(Account, 'findByIdAndDelete')
 		.mockReturnValue({ exec: async () => null } as any)
+	jest.spyOn(AccessToken, 'revoke').mockResolvedValue(true)
 
-	it('gets an account by its identifier', async () => {
+	it('deletes an account by its identifier', async () => {
 		const { account } = TesterAccount
+		const { access } = TesterAccount
 
 		jest
-			.spyOn(Account, 'findById')
+			.spyOn(Account, 'findByIdAndDelete')
 			.mockReturnValueOnce({ exec: async () => account } as any)
 
 		req.params.id = account._id.toString()
-		await controller.get(req, res, next)
+		const request = req as any
+		request.token = access
+
+		await controller.delete(req, res, next)
 
 		expect(spies.status).toBeCalledWith(200)
 		expect(spies.json).toBeCalled()

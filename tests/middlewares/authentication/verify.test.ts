@@ -50,13 +50,13 @@ describe('verify authentication middleware', () => {
 		jest.spyOn(VerifyToken, 'verify').mockResolvedValueOnce(account._id)
 
 		req.params.token = verify
-		expect(async () => handler(req, res, next)).rejects.toThrowError(
+		await expect(() => handler(req, res, next)).rejects.toThrowError(
 			Unauthorized
 		)
 	})
 
 	it('should not foward request for invalid verify token', async () => {
-		expect(async () => await handler(req, res, next)).rejects.toThrowError(
+		await expect(() => handler(req, res, next)).rejects.toThrowError(
 			JsonWebTokenError
 		)
 	})

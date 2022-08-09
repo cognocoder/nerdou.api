@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { Unauthorized } from '../../../errors/HttpErrors'
-import { handler } from '../../../middlewares/authentication/refresh'
-import TesterAccount from '../../utils/TesterAccount'
+
 import Account from '../../../models/Account'
-import { RefreshToken } from '../../../tokens/opaque'
+import { VerifyToken } from '../../../tokens/jwt'
+import { Unauthorized } from '../../../errors/HttpErrors'
+import TesterAccount from '../../utils/TesterAccount'
+import { handler } from '../../../middlewares/authentication/verify'
+import { JsonWebTokenError } from 'jsonwebtoken'
 
 let req: Request
 let res: Response
@@ -13,7 +15,7 @@ const next: NextFunction = jest.fn().mockImplementation((error) => {
 	if (error) throw error
 })
 
-describe('refresh authentication middleware', () => {
+describe('verify authentication middleware', () => {
 	beforeEach(() => {
 		req = getMockReq()
 		res = getMockRes().res
@@ -23,45 +25,39 @@ describe('refresh authentication middleware', () => {
 		.spyOn(Account, 'findById')
 		.mockReturnValue({ exec: async () => null } as any)
 
-	jest.spyOn(RefreshToken, 'verify').mockImplementation(async () => {
-		throw new Unauthorized('')
+	jest.spyOn(VerifyToken, 'verify').mockImplementation(async () => {
+		throw new JsonWebTokenError('')
 	})
 
-	it('should foward request with correct refresh token', async () => {
+	it('should foward request with correct verify token', async () => {
 		const { account } = TesterAccount
-		const refresh = TesterAccount.refresh
+		const verify = TesterAccount.verify
 
+		jest.spyOn(VerifyToken, 'verify').mockResolvedValueOnce(account._id)
 		jest
 			.spyOn(Account, 'findById')
 			.mockReturnValueOnce({ exec: async () => account } as any)
-		jest
-			.spyOn(RefreshToken, 'verify')
-			.mockResolvedValueOnce(account._id.toString())
 
-		req.body = { ...req.body, refresh }
-
+		req.params.token = verify
 		const result = await handler(req, res, next)
 		expect(result).toBeUndefined()
 	})
 
 	it('should not foward request for account not found', async () => {
 		const { account } = TesterAccount
-		const refresh = TesterAccount.refresh
+		const verify = TesterAccount.verify
 
-		jest
-			.spyOn(RefreshToken, 'verify')
-			.mockResolvedValueOnce(account._id.toString())
+		jest.spyOn(VerifyToken, 'verify').mockResolvedValueOnce(account._id)
 
-		req.body = { ...req.body, refresh }
-
-		expect(async () => await handler(req, res, next)).rejects.toThrowError(
+		req.params.token = verify
+		expect(async () => handler(req, res, next)).rejects.toThrowError(
 			Unauthorized
 		)
 	})
 
-	it('should not foward request for invalid refresh token', async () => {
+	it('should not foward request for invalid verify token', async () => {
 		expect(async () => await handler(req, res, next)).rejects.toThrowError(
-			Unauthorized
+			JsonWebTokenError
 		)
 	})
 })

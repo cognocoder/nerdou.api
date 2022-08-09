@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 
 import { Unauthorized } from '../../errors/HttpErrors'
-
 import Account from '../../models/Account'
 import { VerifyToken } from '../../tokens/jwt'
 
@@ -12,7 +11,7 @@ export async function handler(req: Request, res: Response, next: NextFunction) {
 
 		const account = await Account.findById(id).exec()
 		if (!account) {
-			throw new Unauthorized(`The account ${id} was not found.`, { token })
+			throw new Unauthorized('The account was not found.', { id, token })
 		}
 
 		const request = req as any

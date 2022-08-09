@@ -33,7 +33,7 @@ describe('bearer authentication strategy', () => {
 		expect(result).toBeUndefined()
 	})
 
-	it('should not authenticate token for missing account', async () => {
+	it('should not authenticate token for account not found', async () => {
 		const { account } = TesterAccount
 
 		jest.spyOn(AccessToken, 'verify').mockResolvedValueOnce(account._id)

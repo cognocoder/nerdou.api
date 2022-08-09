@@ -23,6 +23,7 @@ const TesterAccount = {
 	access,
 	account,
 	refresh,
+	verify: access,
 }
 
 export default TesterAccount

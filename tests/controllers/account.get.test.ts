@@ -31,7 +31,7 @@ describe('get requests for account controller', () => {
 		.spyOn(Account, 'findById')
 		.mockReturnValue({ exec: async () => null } as any)
 
-	it('gets an account by its identifier', async () => {
+	it('should get an account by its identifier', async () => {
 		const { account } = TesterAccount
 
 		jest
@@ -45,7 +45,7 @@ describe('get requests for account controller', () => {
 		expect(spies.json).toBeCalled()
 	})
 
-	it('throws if the account was not found', async () => {
+	it('should throw an error, the account was not found', async () => {
 		const { account } = TesterAccount
 		req.params.id = account._id.toString()
 

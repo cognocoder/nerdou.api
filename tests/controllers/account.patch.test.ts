@@ -32,7 +32,7 @@ describe('patch requests for account controller', () => {
 		.spyOn(Account, 'findByIdAndUpdate')
 		.mockReturnValue({ exec: async () => null } as any)
 
-	it('patches an account by its identifier', async () => {
+	it('should patch an account by its identifier', async () => {
 		const { account } = TesterAccount
 		const { password } = TesterAccount
 		const { passhash } = account
@@ -54,7 +54,7 @@ describe('patch requests for account controller', () => {
 		expect(spies.json).toBeCalled()
 	})
 
-	it('throws if the account was not found', async () => {
+	it('should throw an error, the account was not found', async () => {
 		const { account } = TesterAccount
 		const { password } = TesterAccount
 		account.passhash = password

@@ -33,7 +33,7 @@ describe('delete requests for account controller', () => {
 		.mockReturnValue({ exec: async () => null } as any)
 	jest.spyOn(AccessToken, 'revoke').mockResolvedValue(true)
 
-	it('deletes an account by its identifier', async () => {
+	it('should delete an account by its identifier', async () => {
 		const { account } = TesterAccount
 		const { access } = TesterAccount
 
@@ -51,7 +51,7 @@ describe('delete requests for account controller', () => {
 		expect(spies.json).toBeCalled()
 	})
 
-	it('throws if the account was not found', async () => {
+	it('should throw an erorr, the account was not found', async () => {
 		const { account } = TesterAccount
 		req.params.id = account._id.toString()
 

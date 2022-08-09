@@ -8,7 +8,7 @@ import { VerifyToken } from '../tokens/jwt'
 import mailer from '../email'
 import verification from '../email/verification'
 
-const accounts = {
+export const accounts = {
 	/**
 	 * Create an account with an access and a refresh token, sends a
 	 * verification e-mail.
@@ -45,7 +45,7 @@ const accounts = {
 	 * Get accounts.
 	 */
 	get: async (req: Request, res: Response) => {
-		const accounts = await Account.find()
+		const accounts = await Account.find().exec()
 		return res.status(200).json(accounts)
 	},
 }

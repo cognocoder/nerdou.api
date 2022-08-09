@@ -15,7 +15,7 @@ describe('requests to error controller', () => {
 		next = mock.next
 	})
 
-	it('should throw not allowed error', () => {
+	it('should throw an not allowed error', () => {
 		const handler = NotAllowed(
 			'DELETE (remove) resource is not allowed.',
 			'GET'

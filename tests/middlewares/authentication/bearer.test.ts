@@ -12,7 +12,7 @@ describe('bearer authentication middleware', () => {
 		req = getMockReq()
 	})
 
-	it('should foward request on verification', () => {
+	it('should foward request with correct access token', () => {
 		const { account } = TesterAccount
 		const access = TesterAccount.access
 

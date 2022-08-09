@@ -21,7 +21,7 @@ const options = {
 				description: 'Development',
 			},
 			{
-				url: 'https://api.nerdou.com.br',
+				url: 'http://api.nerdou.com.br',
 				description: 'Production',
 			},
 		],

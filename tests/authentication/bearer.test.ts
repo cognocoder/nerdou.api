@@ -33,7 +33,7 @@ describe('bearer authentication strategy', () => {
 		expect(result).toBeUndefined()
 	})
 
-	it('should not authenticate token for an account not found', async () => {
+	it('should not authenticate token for missing account', async () => {
 		const { account } = TesterAccount
 
 		jest.spyOn(AccessToken, 'verify').mockResolvedValueOnce(account._id)
@@ -43,7 +43,7 @@ describe('bearer authentication strategy', () => {
 		).rejects.toThrowError(Unauthorized)
 	})
 
-	it('should not authenticate an invalid token', async () => {
+	it('should not authenticate an invalid access token', async () => {
 		await expect(() =>
 			bearer('invalid access token', done)
 		).rejects.toThrowError(JsonWebTokenError)

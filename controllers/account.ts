@@ -5,7 +5,7 @@ import Account from '../models/Account'
 import { NotFound } from '../errors/HttpErrors'
 import { AccessToken } from '../tokens/jwt'
 
-const account = {
+export const account = {
 	/**
 	 * Get account.
 	 */
@@ -18,7 +18,7 @@ const account = {
 				return res.status(200).json(found)
 			}
 
-			throw new NotFound(`Account ${id} not found.`)
+			throw new NotFound('Account not found.', { id })
 		} catch (error) {
 			return next(error)
 		}
@@ -32,7 +32,7 @@ const account = {
 		const acc = req.body
 
 		if (acc.passhash) {
-			acc.passhash = await bcryptjs.hash(acc.passhash, 12)
+			acc.passhash = await bcryptjs.hash(acc.passhash, 10)
 		}
 
 		try {
@@ -55,15 +55,14 @@ const account = {
 	 * Remove account.
 	 */
 	delete: async (req: Request, res: Response, next: NextFunction) => {
-		const id = req.params.id
-
 		try {
+			const id = req.params.id
 			const found = await Account.findByIdAndDelete(id).exec()
+
 			if (found) {
 				const request = req as any
 				const token = request.token
 				await AccessToken.revoke(token)
-
 				return res.status(200).json(found)
 			}
 

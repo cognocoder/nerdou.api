@@ -45,7 +45,7 @@ export const account = {
 				return res.status(200).json(found)
 			}
 
-			throw new NotFound(`Account ${id} not found.`)
+			throw new NotFound('Account was not found.', { id })
 		} catch (error) {
 			return next(error)
 		}

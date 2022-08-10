@@ -9,7 +9,7 @@ const Base64 =
 	'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 const prefix = 'allowlist'
 
-async function _create(
+export async function _create(
 	id: ObjectId,
 	time: number,
 	unit: 'days' | 'hours' | 'minutes' | 'seconds'
@@ -34,12 +34,12 @@ async function _create(
 	})
 }
 
-async function _revoke(token: string) {
+export async function _revoke(token: string) {
 	const del = await redis.del(`${prefix}:${token}`)
 	return del > 0
 }
 
-async function _verify(token: string, type: string) {
+export async function _verify(token: string, type: string) {
 	if (!token) {
 		throw new Unauthorized(`The ${type} is missing.`)
 	}

@@ -23,6 +23,7 @@ const TesterAccount = {
 	access,
 	account,
 	refresh,
+	reset: refresh,
 	verify: access,
 }
 

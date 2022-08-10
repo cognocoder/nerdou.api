@@ -7,7 +7,7 @@ import mailer from '../email'
 import { email as resetmail } from '../email/passreset'
 import { BadRequest, InternalServerError } from '../errors/HttpErrors'
 
-const passreset = {
+export const passreset = {
 	/**
 	 * Create a reset token and send it by e-mail for passhash reset.
 	 */
@@ -62,7 +62,7 @@ const passreset = {
 				throw new BadRequest('The account was not found.', { id })
 			}
 
-			account.passhash = await bcryptjs.hash(passhash, 12)
+			account.passhash = await bcryptjs.hash(passhash, 10)
 			await account.save()
 
 			return res.status(200).json(account)

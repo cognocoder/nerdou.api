@@ -8,7 +8,7 @@ import redis from '../databases/redis'
 const key = process.env.JSON_WEB_TOKEN_KEY
 const prefix = 'blocklist:'
 
-function _create(
+export function _create(
 	id: ObjectId,
 	time: number,
 	unit: 'days' | 'hours' | 'minutes' | 'seconds'
@@ -18,14 +18,24 @@ function _create(
 	return token
 }
 
-async function _revoked(prefix: string, token: string) {
+export async function _revoke(token: string) {
+	const hash = sha256(token).toString()
+	const set = await redis.set(`${prefix}:${hash}`, '')
+
+	const expiration = jwt.decode(token).exp
+	const expire = await redis.expireAt(`${prefix}:${hash}`, expiration)
+
+	return set && expire
+}
+
+export async function _revoked(prefix: string, token: string) {
 	const hash = sha256(token).toString()
 	const revoked = (await redis.exists(`${prefix}:${hash}`)) === 1
 
 	return revoked
 }
 
-async function _verify(token: string, type: string): Promise<ObjectId> {
+export async function _verify(token: string, type: string): Promise<ObjectId> {
 	const revoked = await _revoked(prefix, token)
 	if (revoked) {
 		throw new jwt.JsonWebTokenError(
@@ -37,6 +47,10 @@ async function _verify(token: string, type: string): Promise<ObjectId> {
 	return id
 }
 
+/**
+ * Create, verify or revoke a Json Web Token to be used as a bearer token
+ * within 15 minutes.
+ */
 export const AccessToken = {
 	create(id: ObjectId) {
 		return _create(id, 15, 'minutes')
@@ -47,16 +61,14 @@ export const AccessToken = {
 	},
 
 	async revoke(token: string) {
-		const hash = sha256(token).toString()
-		const set = await redis.set(`${prefix}:${hash}`, '')
-
-		const expiration = jwt.decode(token).exp
-		const expire = await redis.expireAt(`${prefix}:${hash}`, expiration)
-
-		return !(set === null) && expire
+		return _revoke(token)
 	},
 }
 
+/**
+ * Create or verify a Json Web Token to be used to verify an account within 1
+ * hour.
+ */
 export const VerifyToken = {
 	create(id: ObjectId) {
 		return _create(id, 1, 'hours')

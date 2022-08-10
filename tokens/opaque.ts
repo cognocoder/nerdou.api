@@ -47,6 +47,10 @@ async function _verify(token: string, type: string) {
 	return id
 }
 
+/**
+ * Create, verify or revoke opaque tokens to refresh the bearer token within
+ * 5 days.
+ */
 export const RefreshToken = {
 	async create(id: ObjectId) {
 		return await _create(id, 5, 'days')
@@ -62,6 +66,10 @@ export const RefreshToken = {
 	},
 }
 
+/**
+ * Create or verify opaque tokens to reset the passhash of an account within
+ * 1 hour.
+ */
 export const ResetToken = {
 	async create(id: ObjectId) {
 		return await _create(id, 1, 'hours')

@@ -4,6 +4,7 @@ import Account from '../../models/Account'
 import TesterAccount from '../utils/TesterAccount'
 import { passreset as controller } from '../../controllers/passreset'
 import { ResetToken } from '../../tokens/opaque'
+import { BadRequest } from '../../errors/HttpErrors'
 
 let req: Request
 let res: Response
@@ -55,5 +56,37 @@ describe('patch request to passreset controller', () => {
 		expect(account.passhash).not.toBe(password)
 		expect(spies.status).toBeCalledWith(200)
 		expect(spies.json).toBeCalled()
+	})
+
+	it('should not redefine passhash for invalid token', async () => {
+		await expect(() => controller.patch(req, res, next)).rejects.toThrowError(
+			BadRequest
+		)
+	})
+
+	it('should not redefine passhash for missing password', async () => {
+		const { reset } = TesterAccount
+		const request = req as any
+		request.body = { token: reset }
+
+		await expect(() => controller.patch(req, res, next)).rejects.toThrowError(
+			BadRequest
+		)
+	})
+
+	it('should not redefine passhash for account not found', async () => {
+		const { account, password, reset } = TesterAccount
+		const request = req as any
+		request.body = { passhash: password, token: reset }
+
+		jest.spyOn(ResetToken, 'verify').mockResolvedValue(account._id.toString())
+
+		jest
+			.spyOn(Account, 'findById')
+			.mockReturnValueOnce({ exec: async () => null } as any)
+
+		await expect(() => controller.patch(req, res, next)).rejects.toThrowError(
+			BadRequest
+		)
 	})
 })

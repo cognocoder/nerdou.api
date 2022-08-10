@@ -31,7 +31,7 @@ describe('patch request to passreset controller', () => {
 		spies.end = jest.spyOn(res, 'end')
 	})
 
-	it('should redefine the account passhash', async () => {
+	it('should redefine passhash', async () => {
 		const { account, reset } = TesterAccount
 		const request = req as any
 		request.body = { email: account.email }
@@ -43,6 +43,26 @@ describe('patch request to passreset controller', () => {
 		jest
 			.spyOn(Account, 'findOne')
 			.mockReturnValueOnce({ exec: async () => account } as any)
+
+		await controller.post(req, res, next)
+		expect(spies.status).toBeCalledWith(204)
+		expect(spies.end).toBeCalled()
+	})
+
+	it('should not send e-mail for missing e-mail', async () => {
+		await controller.post(req, res, next)
+		expect(spies.status).toBeCalledWith(204)
+		expect(spies.end).toBeCalled()
+	})
+
+	it('should not send e-mail for account not found', async () => {
+		const { account } = TesterAccount
+		const request = req as any
+		request.body = { email: account.email }
+
+		jest
+			.spyOn(Account, 'findOne')
+			.mockReturnValueOnce({ exec: async () => null } as any)
 
 		await controller.post(req, res, next)
 		expect(spies.status).toBeCalledWith(204)

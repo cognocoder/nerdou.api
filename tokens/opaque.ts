@@ -34,6 +34,11 @@ async function _create(
 	})
 }
 
+async function _revoke(token: string) {
+	const del = await redis.del(`${prefix}:${token}`)
+	return del > 0
+}
+
 async function _verify(token: string, type: string) {
 	if (!token) {
 		throw new Unauthorized(`The ${type} is missing.`)
@@ -61,8 +66,7 @@ export const RefreshToken = {
 	},
 
 	async revoke(token: string) {
-		const del = await redis.del(`${prefix}:${token}`)
-		return del > 0
+		return await _revoke(token)
 	},
 }
 

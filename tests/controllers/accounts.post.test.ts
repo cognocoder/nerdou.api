@@ -29,21 +29,28 @@ describe('post request for accounts controller', () => {
 
 	it('should create an account', async () => {
 		const { account, password } = TesterAccount
-		req.body = {
-			email: account.email,
-			passhash: password,
-			username: account.username,
+		const save = (Account.prototype.save = jest
+			.fn()
+			.mockResolvedValue(() => account))
+
+		try {
+			req.body = {
+				email: account.email,
+				passhash: password,
+				username: account.username,
+			}
+
+			jest
+				.spyOn(Account, 'findOne')
+				.mockReturnValueOnce({ exec: async () => null } as any)
+			jest.spyOn(mailer, 'send').mockResolvedValue(undefined)
+
+			await controller.post(req, res, next)
+			expect(spies.status).toBeCalledWith(201)
+			expect(spies.json).toBeCalled()
+		} finally {
+			Account.prototype.save = save
 		}
-
-		Account.prototype.save = jest.fn().mockResolvedValue(() => account)
-		jest
-			.spyOn(Account, 'findOne')
-			.mockReturnValueOnce({ exec: async () => null } as any)
-		jest.spyOn(mailer, 'send').mockResolvedValue(undefined)
-
-		await controller.post(req, res, next)
-		expect(spies.status).toBeCalledWith(201)
-		expect(spies.json).toBeCalled()
 	})
 
 	it('should not create an account for e-mail already taken', async () => {

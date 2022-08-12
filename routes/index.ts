@@ -11,9 +11,12 @@ import documentation from '../routes/documentation'
 import passreset from '../routes/passreset'
 import options from '../documentation/options'
 
+const cors = require('cors')
 const specs = swaggerJsDoc(options)
 
 const routes = (app: Express) => {
+	app.use(cors())
+
 	app.use(
 		express.json(),
 		authentication,

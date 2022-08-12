@@ -15,7 +15,17 @@ const cors = require('cors')
 const specs = swaggerJsDoc(options)
 
 const routes = (app: Express) => {
-	app.use(cors())
+	app.use(
+		cors({
+			origin: process.env.NERDOU_WEB_ORIGIN,
+			methods: 'GET, POST, PUT, PATCH, DELETE',
+			allowedHeaders:
+				'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+			exposedHeaders: 'Content-Type, Authorization',
+			credentials: true,
+			preflightContinue: true,
+		})
+	)
 
 	app.use(
 		express.json(),

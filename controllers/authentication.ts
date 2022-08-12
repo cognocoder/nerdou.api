@@ -16,7 +16,7 @@ export const authentication = {
 			const access = AccessToken.create(account.id)
 			const refresh = await RefreshToken.create(account.id)
 
-			res.set('Authorization', access)
+			res.set('Authorization', `Bearer ${access}`)
 			return res.status(200).json({ refresh })
 		} catch (error) {
 			return next(error)

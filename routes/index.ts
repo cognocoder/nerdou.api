@@ -19,8 +19,7 @@ const routes = (app: Express) => {
 		cors({
 			origin: process.env.NERDOU_WEB_ORIGIN,
 			methods: 'GET, POST, PUT, PATCH, DELETE',
-			allowedHeaders:
-				'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+			allowedHeaders: 'Origin, Content-Type, Accept, Authorization',
 			exposedHeaders: 'Content-Type, Authorization',
 			credentials: true,
 			preflightContinue: true,

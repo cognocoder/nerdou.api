@@ -1,11 +1,9 @@
 export function address(token: string) {
-	let endpoint = process.env.ENDPOINT
+	const endpoint = process.env.ENDPOINT
 	const env = process.env.NODE_ENV
 	const port = process.env.PORT
-	if (port && env !== 'production') {
-		endpoint = `${endpoint}:${port}`
-	}
-	const address = `${endpoint}/authentication/${token}`
+	const url = port && env !== 'production' ? `${endpoint}:${port}` : endpoint
+	const address = `${url}/verify/${token}`
 	return address
 }
 
